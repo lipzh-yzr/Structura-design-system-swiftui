@@ -1,0 +1,1 @@
+/Users/wepie/projects/iOS-DevOps/config/agents/AGENTS.md

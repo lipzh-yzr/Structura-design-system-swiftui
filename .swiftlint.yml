@@ -1,0 +1,183 @@
+# 如果值为 true，SwiftLint 将把所有警告都视为错误
+strict: false
+
+# 执行 linting 时忽略的路径。 优先级比 `included` 更高。
+excluded: 
+  - Pods
+  - LocalPods/SwiftyFoundation/SwiftyFoundation/DataStructure/HeapModule
+  - LocalPods/HWFoundation/SwiftyFoundation/SwiftyFoundation/DataStructure/HeapModule
+
+# 额外启用的规则
+opt_in_rules:
+  - anyobject_protocol # 协议遵循 AnyObject 而不是 class
+  - collection_alignment # 集合字面亮格式
+  - literal_expression_end_indentation # 数组和字典字面末尾的缩进应与起始行相同
+  - large_tuple # 元组不应有太多成员
+  - implicit_return # 在闭包、函数和获取器中优先使用隐式返回
+  - closure_body_length # 闭包内代码长度限制
+  - closure_spacing # 闭包表达式的每个括号内应有一个空格
+  - closure_end_indentation # 结尾的缩进应与起始行相同
+  - yoda_condition # 常量文字应放在比较运算符的右侧
+  - custom_rules
+
+# 禁用的规则
+disabled_rules:
+  - identifier_name #命名规则必须按照驼峰原则，与后台传的Json字段命名冲突，建议排除掉
+  - trailing_whitespace #每一个空行不能有空格，会与Xcode换行后自动对齐生成的空格冲突，建议排除掉
+  - trailing_comma # 避免数组和字典中的尾逗号
+  - todo
+  - colon
+
+# 类型主体不应跨行过多
+type_body_length:
+  warning: 600
+  error: 600 
+
+line_length:
+  warning: 150
+  error: 150
+  ignores_comments: true
+
+file_length:
+  warning: 1200
+  error: 1200
+
+# 类型名
+type_name:
+  min_length:
+    error: 4 # 只有错误
+  max_length: # 警告和错误
+    warning: 45
+    error: 45
+  excluded: # 排除某些名字
+    - ID
+    - Key
+    - API
+    - HUD
+    - LRU
+    - Tab
+    - Row
+
+identifier_name:
+  min_length:
+    error: 4
+  max_length:
+    error: 20
+  excluded: # 排除某些名字
+    - id
+    - uid
+    - api
+    - key
+    - v
+    - l
+    - k
+
+# 函数体长度限制
+function_body_length:
+  warning: 180
+  error: 180
+
+# 空格规则
+colon:
+  flexible_right_spacing: true
+  apply_to_dictionaries: false
+
+# 方法复杂程度
+cyclomatic_complexity:
+  warning: 20
+  error: 20
+
+# 计算属性 set get 的顺序
+computed_accessors_order:
+  severity: error
+  order: set_get
+
+# 嵌套层级
+nesting:
+  type_level: # 类型
+    warning: 4
+  function_level: # 方法
+    warning: 2
+  ignore_typealiases_and_associatedtypes: true
+
+# switch case 格式
+switch_case_alignment:
+  severity: error
+
+unused_optional_binding:
+  severity: error
+
+function_parameter_count:
+  warning: 8
+  error: 8
+
+# 应避免使用三元函数调用 Void 函数
+void_function_in_ternary:
+  severity: error
+
+# 闭包内代码长度
+closure_body_length:
+  error: 30
+
+closure_end_indentation:
+  severity: error
+
+yoda_condition:
+  severity: error
+
+# 在闭包、函数和获取器中优先使用隐式返回
+implicit_return:
+  severity: error
+
+indentation: 2
+
+custom_rules:
+  setup_checker:
+    name: "Setup Naming Rule"
+    regex: 'func setup'
+    message: "use 'setUp' replace 'setup'."
+    severity: error
+  create_checker:
+    name: "Setup Naming Rule"
+    regex: 'func createUI'
+    message: "use 'setUpUI' replace 'createUI'."
+    severity: error
+  configure_checker:
+    name: "Setup Naming Rule"
+    regex: 'func configureUI'
+    message: "use liking 'reloadData' replace 'configureUI'."
+    severity: error
+  no_objcMembers:
+    name: "@objcMembers"
+    regex: "@objcMembers"
+    message: "Explicitly use @objc on each member you want to expose to Objective-C"
+    severity: error
+  no_direct_standard_out_logs:
+    name: "Writing log messages directly to standard out is disallowed"
+    regex: "(\\bprint|\\bdebugPrint|\\bdump|Swift\\.print|Swift\\.debugPrint|Swift\\.dump)\\s*\\("
+    match_kinds:
+    - identifier
+    message: "Don't commit `print(…)`, `debugPrint(…)`, or `dump(…)` as they write to standard out in release. Either log to a dedicated logging system or silence this warning in debug-only scenarios explicitly using `// swiftlint:disable:next no_direct_standard_out_logs`"
+    severity: error
+  no_file_literal:
+    name: "#file is disallowed"
+    regex: "(\\b#file\\b)"
+    match_kinds:
+    - identifier
+    message: "Instead of #file, use #fileID"
+    severity: error
+  no_filepath_literal:
+    name: "#filePath is disallowed"
+    regex: "(\\b#filePath\\b)"
+    match_kinds:
+    - identifier
+    message: "Instead of #filePath, use #fileID."
+    severity: error
+  no_unchecked_sendable:
+    name: "`@unchecked Sendable` is discouraged."
+    regex: "@unchecked Sendable"
+    match_kinds:
+    - attribute.builtin
+    - typeidentifier
+    message: "Instead of using `@unchecked Sendable`, consider a safe alternative like a standard `Sendable` conformance or using `@preconcurrency import`. If you really must use `@unchecked Sendable`, you can add a `// swiftlint:disable:next no_unchecked_sendable` annotation with an explanation for how we know the type is thread-safe, and why we have to use @unchecked Sendable instead of Sendable. More explanation and suggested safe alternatives are available at https://github.com/airbnb/swift#unchecked-sendable."
+    severity: error

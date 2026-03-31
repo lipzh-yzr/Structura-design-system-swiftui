@@ -140,3 +140,9 @@ public extension Text {
         )
     }
 }
+
+public extension View {
+    func font(stTypography: STTypography) -> some View {
+        font(stTypography.font)
+    }
+}

@@ -222,7 +222,7 @@ struct STButtonStyle: ButtonStyle {
 #Preview {
     VStack(spacing: 8) {
         Button("test") {}
-            .stButtonStyle(size: .medium, style: .primary)
+            .stButtonStyle(size: .medium, style: .gray)
         Color.clear
     }
 

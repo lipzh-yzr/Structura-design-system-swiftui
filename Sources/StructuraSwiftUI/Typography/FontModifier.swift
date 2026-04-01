@@ -46,4 +46,42 @@ public extension View {
             )
         )
     }
+    
+    func stTypography12Semibold(isSingleLine: Bool = false) -> some View {
+        modifier(
+            STFontModifier(
+                size: 12,
+                weight: .semibold,
+                isSingleLine: isSingleLine,
+                lineHeight: 16
+            )
+        )
+    }
+    
+    func stTypography14Regular(isSingleLine: Bool = false) -> some View {
+        modifier(
+            STFontModifier(
+                size: 14,
+                weight: .regular,
+                isSingleLine: isSingleLine,
+                lineHeight: 19
+            )
+        )
+    }
+    
+    func stTypography(
+        size: CGFloat,
+        weight: UIFont.Weight,
+        isSingleLine: Bool = false,
+        lineHeight: CGFloat
+    ) -> some View {
+        modifier(
+            STFontModifier(
+                size: size,
+                weight: weight,
+                isSingleLine: isSingleLine,
+                lineHeight: lineHeight
+            )
+        )
+    }
 }

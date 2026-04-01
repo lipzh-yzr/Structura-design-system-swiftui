@@ -21,6 +21,9 @@ let package = Package(
         .target(
             name: "StructuraSwiftUI",
             path: "./Sources/StructuraSwiftUI",
+            swiftSettings: [
+                .defaultIsolation(MainActor.self) // Opts into MainActor by default
+            ]
         ),
 
     ]

@@ -80,5 +80,14 @@ public struct STToggleStyle: ToggleStyle {
     }
 }
 
+struct STTogglePreview: View {
+    @State var isOn: Bool = false
+    var body: some View {
+        Toggle("Test", isOn: $isOn)
+            .toggleStyle(STToggleStyle()).disabled(true)
+    }
+}
+
 #Preview {
+    STTogglePreview()
 }

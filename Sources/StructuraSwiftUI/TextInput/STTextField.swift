@@ -46,6 +46,7 @@ struct STTextFieldStyle: TextFieldStyle {
                         emptyText()
                     } label: {
                         Image(systemName: "xmark")
+                            .renderingMode(.original)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
@@ -53,7 +54,7 @@ struct STTextFieldStyle: TextFieldStyle {
                 }
             }
             .padding(.init(top: 12, leading: 16, bottom: 12, trailing: 16))
-            .foregroundStyle(stColor: .grayBg)
+            .background(stColor: .grayBg)
             .clipShape(.rect(cornerRadius: 8))
         }
     }
@@ -97,10 +98,7 @@ extension TextField {
             .stTextFieldStyle(
                 wordLimit: 10,
                 label: .constant("Title1"),
-                text: .init(get: {
-                    text1
-                }, set: { _ in
-                })
+                text: $text1
             )
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-public struct STToastItem: Identifiable {
+public struct STToastItem: Identifiable, Equatable {
     public enum STToastType: Sendable {
         case normal
         

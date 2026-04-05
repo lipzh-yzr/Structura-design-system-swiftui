@@ -381,6 +381,10 @@ public extension SwiftUI.Color {
     let bundle = BundleToken.bundle
     self.init(asset.name, bundle: bundle)
   }
+    
+    init(colorPalette: STAsset.ColorPalette) {
+        self.init(asset: colorPalette.colorAsset)
+    }
 }
 #endif
 

@@ -58,6 +58,17 @@ public extension View {
         )
     }
     
+    func stTypography16Semibold(isSingleLine: Bool = false) -> some View {
+        modifier(
+            STFontModifier(
+                size: 16,
+                weight: .semibold,
+                isSingleLine: isSingleLine,
+                lineHeight: 22
+            )
+        )
+    }
+    
     func stTypography14Regular(isSingleLine: Bool = false) -> some View {
         modifier(
             STFontModifier(

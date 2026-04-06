@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-extension View {
+public extension View {
     func foregroundStyle(stColor: STAsset.ColorPalette?) -> some View {
         foregroundStyle(Color(stColor?.color ?? .clear))
     }
 }
 
-extension Text {
+public extension Text {
     func foregroundStyle(stColor: STAsset.ColorPalette?) -> Text {
         foregroundStyle(Color(stColor?.color ?? .clear))
     }

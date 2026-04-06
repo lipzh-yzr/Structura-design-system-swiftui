@@ -8,6 +8,7 @@
 import SwiftUI
 
 public struct STToggleStyle: ToggleStyle {
+    public init() {}
     
     public func makeBody(configuration: Configuration) -> some View {
         STToggle(configuration: configuration)

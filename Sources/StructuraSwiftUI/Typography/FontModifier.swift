@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct STFontModifier: ViewModifier {
+public struct STFontModifier: ViewModifier {
     let size: CGFloat
     let weight: UIFont.Weight
     let isSingleLine: Bool
     let lineHeight: CGFloat
 
-    init(
+    public init(
         size: CGFloat,
         weight: UIFont.Weight,
         isSingleLine: Bool,
@@ -25,7 +25,7 @@ struct STFontModifier: ViewModifier {
         self.lineHeight = lineHeight
     }
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         let font = UIFont.systemFont(ofSize: size, weight: weight)
         return content.font(Font(font))
             .lineSpacing(lineHeight - font.lineHeight)

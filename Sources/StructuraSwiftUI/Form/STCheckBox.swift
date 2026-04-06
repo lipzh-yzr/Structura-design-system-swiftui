@@ -16,6 +16,8 @@ public struct STCheckBoxStyle: ToggleStyle {
         static let labelSpacing: CGFloat = 4
     }
     
+    public init() {}
+
     public func makeBody(configuration: Configuration) -> some View {
         STCheckBox(configuration: configuration)
     }

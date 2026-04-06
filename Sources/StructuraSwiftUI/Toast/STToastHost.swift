@@ -28,10 +28,14 @@ public extension View {
     }
 }
 
-private struct STToastHostModifier: ViewModifier {
-    let presenter: STToastPresenter
+public struct STToastHostModifier: ViewModifier {
+    public let presenter: STToastPresenter
 
-    func body(content: Content) -> some View {
+    public init(presenter: STToastPresenter) {
+        self.presenter = presenter
+    }
+
+    public func body(content: Content) -> some View {
         content.overlay {
             Color.clear
             STToastOverlay(item: presenter.currentToast) {
@@ -42,10 +46,14 @@ private struct STToastHostModifier: ViewModifier {
     }
 }
 
-private struct STToastBindingModifier: ViewModifier {
+public struct STToastBindingModifier: ViewModifier {
     @Binding var item: STToastItem?
 
-    func body(content: Content) -> some View {
+    public init(item: Binding<STToastItem?>) {
+        _item = item
+    }
+
+    public func body(content: Content) -> some View {
         content.overlay {
             Color.clear
             STToastOverlay(item: item) {

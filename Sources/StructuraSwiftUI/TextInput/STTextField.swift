@@ -8,7 +8,7 @@
 import SwiftUI
 import Observation
 
-struct STTextFieldStyle: TextFieldStyle {
+public struct STTextFieldStyle: TextFieldStyle {
     /// the limit of word count. If nil, the trailing limit text won't show
     let wordLimit: Int?
     @Binding var label: String
@@ -17,7 +17,21 @@ struct STTextFieldStyle: TextFieldStyle {
     let showClearButtonWhenEditing: Bool
     @FocusState private var isFocused: Bool
     
-    func _body(configuration: TextField<_Label>) -> some View {
+    public init(
+        wordLimit: Int? = nil,
+        label: Binding<String> = .constant(""),
+        text: Binding<String> = .constant(""),
+        icon: Image? = nil,
+        showClearButtonWhenEditing: Bool = true
+    ) {
+        self.wordLimit = wordLimit
+        _label = label
+        _text = text
+        self.icon = icon
+        self.showClearButtonWhenEditing = showClearButtonWhenEditing
+    }
+
+    public func _body(configuration: TextField<_Label>) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             if !label.isEmpty {
                 HStack(spacing: 4) {
@@ -64,7 +78,7 @@ struct STTextFieldStyle: TextFieldStyle {
     }
 }
 
-extension TextField {
+public extension TextField {
     /// 设置指定样式
     /// - Parameters:
     ///   - wordLimit: 字数最大限制，如果为nil则不展示末尾的限制文本

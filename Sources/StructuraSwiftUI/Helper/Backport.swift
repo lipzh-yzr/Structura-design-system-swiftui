@@ -8,18 +8,19 @@
 import Foundation
 import SwiftUI
 
-struct Backport<Object> {
-    let object: Object
-    init(_ object: Object) {
+public struct Backport<Object> {
+    public let object: Object
+
+    public init(_ object: Object) {
         self.object = object
     }
 }
 
-extension View {
+public extension View {
     var backport: Backport<Self> { Backport(self) }
 }
 
-extension Backport where Object: View {
+public extension Backport where Object: View {
     @ViewBuilder
     func foregroundStyle(_ style: Color) -> some View {
         if #available(iOS 17.0, *) {

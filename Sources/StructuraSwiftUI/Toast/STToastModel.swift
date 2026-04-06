@@ -37,7 +37,7 @@ public struct STToastItem: Identifiable, Equatable {
         public let border: STAsset.ColorPalette?
         public let padding: EdgeInsets
         
-        init(
+        public init(
             foreground: STAsset.ColorPalette,
             background: STAsset.ColorPalette,
             border: STAsset.ColorPalette? = nil,
@@ -63,7 +63,7 @@ public struct STToastItem: Identifiable, Equatable {
     public let indicatorType: IndicatorType?
     public let duration: TimeInterval?
     
-    init(
+    public init(
         id: UUID = UUID(),
         message: String,
         type: STToastType = .normal,

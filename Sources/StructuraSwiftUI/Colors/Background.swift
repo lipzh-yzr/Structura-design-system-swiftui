@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension View {
+public extension View {
     func background(stColor: STAsset.ColorPalette) -> some View {
         background {
             Color(stColor.color)

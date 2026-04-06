@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum STButtonSize {
+public enum STButtonSize {
     case big
     case medium
     case small
@@ -35,7 +35,7 @@ enum STButtonSize {
     }
 }
 
-enum STButtonColorStyle {
+public enum STButtonColorStyle {
     case primary // brand theming
     case sub // brand theming with white background
     case weak // gray theming with semi-white background
@@ -159,7 +159,7 @@ enum STButtonColorStyle {
     }
 }
 
-extension View {
+public extension View {
     func stButtonStyle(size: STButtonSize, style: STButtonColorStyle) -> some View {
         buttonStyle(
             STButtonStyle(isFixed: size == .big ? false : true, size: size, colorStyle: style)
@@ -167,10 +167,17 @@ extension View {
     }
 }
 
-struct STButtonStyle: ButtonStyle {
+public struct STButtonStyle: ButtonStyle {
     let isFixed: Bool
     let size: STButtonSize
     let colorStyle: STButtonColorStyle
+
+    public init(isFixed: Bool, size: STButtonSize, colorStyle: STButtonColorStyle) {
+        self.isFixed = isFixed
+        self.size = size
+        self.colorStyle = colorStyle
+    }
+
     struct STButton: View {
         let label: ButtonStyleConfiguration.Label
         let isPressed: Bool
@@ -208,7 +215,7 @@ struct STButtonStyle: ButtonStyle {
     }
     
     
-    func makeBody(configuration: Configuration) -> some View {
+    public func makeBody(configuration: Configuration) -> some View {
         STButton(
             label: configuration.label,
             isPressed: configuration.isPressed,

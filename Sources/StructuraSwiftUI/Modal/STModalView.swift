@@ -56,9 +56,9 @@ public struct STModalView<ModalContent: View, ModalActions: View>: View {
         var roundedCorners: UIRectCorner {
             switch self {
             case .dialog:
-                [.topLeft, .topRight]
-            case .bottomSheet:
                 .allCorners
+            case .bottomSheet:
+                [.topLeft, .topRight]
             }
         }
     }
@@ -82,7 +82,7 @@ public struct STModalView<ModalContent: View, ModalActions: View>: View {
         title: String? = nil,
         style: Style = .bottomSheet,
         dismissWhenTapBackground: Bool = true,
-        backgroundColor: Color = .clear,
+        backgroundColor: Color,
         showDragIndicator: Bool = true,
         isPresented: Binding<Bool>,
         @ViewBuilder content: () -> ModalContent,
@@ -161,7 +161,7 @@ public struct STModalView<ModalContent: View, ModalActions: View>: View {
             if style == .dialog {
                 modalOffset = .zero
             } else {
-                modalOffset = modalInitialOffset
+                modalOffset = isPresented ? .zero : modalInitialOffset
             }
             backgroundOpacity = isPresented ? 1 : 0
         }
@@ -175,6 +175,7 @@ public struct STModalView<ModalContent: View, ModalActions: View>: View {
                 value: backgroundOpacity
             )
             .ignoresSafeArea(.all)
+            .contentShape(Rectangle())
             .onTapGesture {
                 guard dismissWhenTapBackground else {
                     return
@@ -226,18 +227,38 @@ public struct STModalView<ModalContent: View, ModalActions: View>: View {
 }
 
 #Preview {
-    @Previewable @State var isPresented = false
+    @Previewable @State var isSheetPresented = false
+    @Previewable @State var isDialogPresented = false
     @Previewable @State var isOn = false
     
-    ZStack {
-        Button("Modal") {
-            isPresented = true
+    VStack(spacing: 12) {
+        Button("Sheet") {
+            isSheetPresented = true
         }.stModal(
-            title: "",
+            title: "Sheet",
             style: .bottomSheet,
             dismissWhenTapBackground: true,
-            backgroundColor: .init(colorPalette: .brandBg),
-            isPresented: $isPresented) {
+            backgroundColor: .init(colorPalette: .opacityBlack50),
+            isPresented: $isSheetPresented) {
+                Toggle("Switch", isOn: $isOn).toggleStyle(STToggleStyle())
+            } actions: {
+                HStack {
+                    Button("Cancel") {
+                    }.stButtonStyle(size: .medium, style: .sub)
+                    Spacer(minLength: 8)
+                    Button("Confirm") {
+                    }.stButtonStyle(size: .medium, style: .primary)
+                }.padding(.horizontal, 8)
+            }
+        Button("Dialog") {
+            isDialogPresented = true
+        }.stModal(
+            title: "Wow",
+            style: .dialog,
+            dismissWhenTapBackground: true,
+            backgroundColor: Color.black.opacity(0.5),
+            isPresented: $isDialogPresented
+) {
                 Toggle("Switch", isOn: $isOn).toggleStyle(STToggleStyle())
             } actions: {
             }

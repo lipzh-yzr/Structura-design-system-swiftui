@@ -195,10 +195,13 @@ public struct STButtonStyle: ButtonStyle {
                 .frame(maxWidth: isFixed ? nil : .infinity)
                 .background(stColor: backgroundColor)
                 .overlay {
-                    Rectangle().foregroundStyle(stColor: borderColor)
+                    Capsule()
+                        .stroke(
+                            borderColor,
+                            lineWidth: 1
+                        )
                 }
                 .clipShape(.capsule)
-                .hoverEffect(.lift)
         }
         
         var backgroundColor: STAsset.ColorPalette {
@@ -207,10 +210,14 @@ public struct STButtonStyle: ButtonStyle {
             ) : colorStyle.disabledBackgroundStColor
         }
         
-        var borderColor: STAsset.ColorPalette? {
-            isEnabled ? (
+        var borderColor: Color {
+            if let colorPalette = isEnabled ? (
                 isPressed ? colorStyle.selectedBorderStColor : colorStyle.normalBorderStColor
-            ) : colorStyle.disabledBorderStColor
+            ) : colorStyle.disabledBorderStColor {
+                return .init(colorPalette: colorPalette)
+            } else {
+                return .clear
+            }
         }
     }
     

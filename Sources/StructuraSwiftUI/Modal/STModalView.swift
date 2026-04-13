@@ -12,6 +12,7 @@ private enum STModalMetrics {
     static let dialogMaxWidth: CGFloat = 300
     static let modalSpacing: CGFloat = 16
     static let animationDuration: CGFloat = 0.25
+    static let bottomSheetDismissThresholdRatio: CGFloat = 0.5
 }
 
 private struct ModalViewHeightKey: PreferenceKey {
@@ -117,8 +118,8 @@ public struct STModalView<ModalContent: View, ModalActions: View>: View {
                         value: modalOpacity
                     )
                     .animation(modalOffsetAnimation, value: modalOffset)
-                    .scaleEffect(style.modalScale)
-                    .animation(.easeInOut(duration: STModalMetrics.animationDuration), value: modalOffset)
+                    .scaleEffect(modalScale)
+                    .animation(.easeInOut(duration: STModalMetrics.animationDuration), value: modalScale)
                     .overlay {
                         GeometryReader { proxy in
                             Color.clear
@@ -128,6 +129,7 @@ public struct STModalView<ModalContent: View, ModalActions: View>: View {
                                         .size.height)
                         }
                     }
+                    .simultaneousGesture(bottomSheetPanGesture)
             }
             .onPreferenceChange(ModalViewHeightKey.self) {
                 guard style == .bottomSheet else {
@@ -185,6 +187,55 @@ public struct STModalView<ModalContent: View, ModalActions: View>: View {
                     isPresented = false
                 }
             }
+    }
+
+    private var bottomSheetPanGesture: some Gesture {
+        DragGesture()
+            .onChanged { value in
+                guard shouldHandleBottomSheetPanGesture else {
+                    return
+                }
+
+                modalOffsetAnimation = nil
+                modalOffset = bottomSheetOffset(for: value.translation)
+            }
+            .onEnded { value in
+                guard shouldHandleBottomSheetPanGesture else {
+                    return
+                }
+
+                let animation = Animation.easeInOut(duration: STModalMetrics.animationDuration)
+                let targetOffset = bottomSheetOffset(for: value.translation)
+                modalOffsetAnimation = animation
+
+                if targetOffset.height > bottomSheetDismissThreshold {
+                    withAnimation(animation) {
+                        modalOffset = modalInitialOffset
+                        isPresented = false
+                    }
+                    return
+                }
+
+                withAnimation(animation) {
+                    modalOffset = .zero
+                }
+            }
+    }
+
+    private var shouldHandleBottomSheetPanGesture: Bool {
+        style == .bottomSheet && modalInitialOffset.height > 0
+    }
+
+    private var bottomSheetDismissThreshold: CGFloat {
+        modalInitialOffset.height * STModalMetrics.bottomSheetDismissThresholdRatio
+    }
+
+    private func bottomSheetOffset(for translation: CGSize) -> CGSize {
+        let translationY = min(max(translation.height, 0), modalInitialOffset.height)
+        return .init(
+            width: 0,
+            height: translationY
+        )
     }
 
     private func modalContent(safeAreaBottomInset: CGFloat) -> some View {

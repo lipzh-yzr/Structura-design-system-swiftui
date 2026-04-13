@@ -20,7 +20,6 @@ public struct STToggleStyle: ToggleStyle {
         var body: some View {
             HStack {
                 configuration.label
-                Spacer()
                 Button("") {
                     configuration.isOn.toggle()
                 }.buttonStyle(ToggleButtonStyle(isOn: configuration.isOn))
